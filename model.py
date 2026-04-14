@@ -6,11 +6,29 @@ from tensorflow.keras.layers import Dense, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.utils import image_dataset_from_directory
 
-#preprocess, still need to do
+#load training and test data and preprocess
+train_ds = tf.keras.utils.image_dataset_from_directory(
+    "asl_processed/train",
+    labels='inferred',
+    label_mode='int',
+    shuffle=True,
+    seed=123,
+    image_size=(100, 100),
+)
 
-y_train = to_categorical(y_train, 36)
-y_test = to_categorical(y_test, 36)
+test_ds = tf.keras.utils.image_dataset_from_directory(
+    "asl_processed/test",
+    labels='inferred',
+    label_mode='int',
+    shuffle=True,
+    seed=123,
+    image_size=(100, 100),
+)
+
+##########################################################################################
+##########################################################################################
 
 #load model
 base_model = DenseNet121(
