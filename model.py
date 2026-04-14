@@ -27,6 +27,8 @@ test_ds = tf.keras.utils.image_dataset_from_directory(
     image_size=(100, 100),
 )
 
+#to do: label images, load into x and y test/train
+
 #load model
 base_model = DenseNet121(
     include_top=False,
