@@ -12,22 +12,26 @@ from tensorflow.keras.utils import image_dataset_from_directory
 train_ds = tf.keras.utils.image_dataset_from_directory(
     "asl_processed/train",
     labels='inferred',
-    label_mode='int',
+    label_mode='categorical',
     shuffle=True,
     seed=123,
-    image_size=(100, 100),
+    image_size=(224, 224),
 )
 
 test_ds = tf.keras.utils.image_dataset_from_directory(
     "asl_processed/test",
     labels='inferred',
-    label_mode='int',
+    label_mode='categorical',
     shuffle=True,
     seed=123,
-    image_size=(100, 100),
+    image_size=(224, 224),
 )
 
 #to do: label images, load into x and y test/train
+class_names = train_ds.class_names
+
+train_ds = train_ds.map(lambda x, y: (preprocess_input(x), y))
+test_ds = test_ds.map(lambda x, y: (preprocess_input(x), y))
 
 #load model
 base_model = DenseNet121(
@@ -58,12 +62,10 @@ model.compile(
 
 #train
 history = model.fit(
-    x_train,
-    y_train,
-    validation_data=(x_test, y_test),
-    epochs=10,
-    batch_size=32
+    train_ds,
+    validation_data=test_ds,
+    epochs=10
 )
 
-loss, acc = model.evaluate(x_test, y_test)
+loss, acc = model.evaluate(test_ds)
 print("Accuracy:", acc)
