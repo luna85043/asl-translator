@@ -64,7 +64,7 @@ model.compile(
 history = model.fit(
     train_ds,
     validation_data=test_ds,
-    epochs=10
+    epochs=3
 )
 
 loss, acc = model.evaluate(test_ds)
