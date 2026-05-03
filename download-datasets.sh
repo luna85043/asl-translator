@@ -7,7 +7,9 @@ mkdir datasets
 curl -L -o datasets/asl-hg.zip "https://data.mendeley.com/public-api/zip/j4y5w2c8w9/download/1"
 echo "unzipping" ; unzip datasets/asl-hg.zip -d datasets
 rm datasets/asl-hg.zip
+mkdir datasets/asl-hg
 mv datasets/ASL-HG\ American\ Sign\ Language\ Hand\ Gesture\ Image\ D/ASL_HG_36000/* datasets/asl-hg
+rm -rf datasets/ASL-HG\ American\ Sign\ Language\ Hand\ Gesture\ Image\ D
 echo "unzipping" ; unzip -q datasets/asl-hg/ASL_Processed_Images.zip -d datasets/asl-hg
 rm datasets/asl-hg/ASL_Processed_Images.zip
 echo "unzipping" ; unzip -q datasets/asl-hg/ASL_Raw_Images.zip -d datasets/asl-hg
