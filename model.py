@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 #load training and test data and preprocess
 train_ds = tf.keras.utils.image_dataset_from_directory(
-    "asl_processed/train",
+    "datasets/asl-hg/asl_processed/train",
     labels='inferred',
     label_mode='categorical',
     shuffle=True,
@@ -21,7 +21,7 @@ train_ds = tf.keras.utils.image_dataset_from_directory(
 )
 
 test_ds = tf.keras.utils.image_dataset_from_directory(
-    "asl_processed/test-backup",
+    "datasets/asl-hg/asl_processed/test",
     labels='inferred',
     label_mode='categorical',
     shuffle=True,
@@ -71,8 +71,8 @@ x = Dropout(0.3)(x)
 x = Dense(128, activation='relu')(x)
 x = Dropout(0.3)(x)
 
-#output is 36 nodes
-output = Dense(36, activation='softmax')(x)
+#output is 37 nodes (A-Z and 0-10)
+output = Dense(37, activation='softmax')(x)
 
 model = Model(inputs=base_model.input, outputs=output)
 
@@ -86,7 +86,7 @@ model.compile(
 history = model.fit(
     train_ds.concatenate(train_ds_2),
     validation_data=test_ds.concatenate(test_ds_2),
-    epochs=50,
+    epochs=70,
     callbacks=[tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=3)]
 )
 
@@ -94,15 +94,15 @@ print("test ds 1")
 loss1, acc1 = model.evaluate(test_ds)
 print("test ds 2")
 loss2, acc2 = model.evaluate(test_ds_2)
-print("combined acc should be ", (acc1 * 7200 + acc2 * 2600) / (7200 + 2600))
+print("combined acc should be ", (acc1 * 7200 + acc2 * 3600) / (7200 + 3600))
 print("actual combined acc")
-loss, acc = model.evaluate(test_ds.concatenate(test_ds_2), verbose=2)
+loss, acc = model.evaluate(test_ds.concatenate(test_ds_2))
 
 model.save("model.keras")
 
 # Get predictions
 test_ds_combined = test_ds.concatenate(test_ds_2)
-y_pred = model.predict(test_ds_combined, verbose=2)
+y_pred = model.predict(test_ds_combined)
 y_pred_classes = np.argmax(y_pred, axis=1)
 
 # Get true labels
