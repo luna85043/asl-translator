@@ -112,6 +112,8 @@ y_true_classes = np.argmax(y_true, axis=1)
 # Confusion matrix
 cm = confusion_matrix(y_true_classes, y_pred_classes)
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=class_names)
+# Because we have 37 classes, we need to decrease the font to read them all
+plt.rcParams.update({'font.size': 5})
 disp.plot(cmap=plt.cm.Blues)
 plt.title('Confusion Matrix')
 # I think plt.show() only works in Jupyter notebooks
