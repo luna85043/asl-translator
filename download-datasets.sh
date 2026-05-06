@@ -37,12 +37,12 @@ mv datasets/synthetic-asl-numbers/Test_Nums/* datasets/synthetic-asl-dataset/tes
 mv datasets/synthetic-asl-numbers/numbers.jpg datasets/synthetic-asl-dataset/numbers.jpg
 rm -rf datasets/synthetic-asl-numbers
 
-# Create missing folders
-mkdir -p \
-    datasets/asl-hg/asl_dataset/10 \
-    datasets/asl-hg/asl_processed/test/10 \
-    datasets/asl-hg/asl_processed/train/10 \
-    datasets/synthetic-asl-dataset/test/0 \
-    datasets/synthetic-asl-dataset/train/0
+# Remove 0 and 10
+rm -rf \
+    datasets/asl-hg/asl_dataset/0 \
+    datasets/asl-hg/asl_processed/test/0 \
+    datasets/asl-hg/asl_processed/train/0 \
+    datasets/synthetic-asl-dataset/test/10 \
+    datasets/synthetic-asl-dataset/train/10
 
 # du -sh datasets/* to see file size
